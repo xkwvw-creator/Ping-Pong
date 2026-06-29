@@ -25,10 +25,11 @@ lose.set_volume(0.4)
 
 
 #создай окно игры
-window = display.set_mode((700, 500))
+window = display.set_mode((1024, 602))
 display.set_caption('Пинг-Понг')
 #задай фон сцены
-background = transform.scale(image.load('background_forest.jpg'), (700, 500))
+background = transform.scale(image.load('background_forest.png'), (1024, 602))
+
 window.blit(background, (0, 0))
 
 # установка кадров в секунду (fps)
@@ -48,16 +49,25 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, (self.rect.x, self.rect.y))
     
 class Player(GameSprite):
-    def update(self):
+    def update_left(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_LEFT] and self.rect.x > 0:
-            self.rect.x -= self.speed
-        if keys_pressed[K_RIGHT] and self.rect.x < 660:
-            self.rect.x += self.speed
+        if keys_pressed[K_UP] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys_pressed[K_DOWN] and self.rect.y < 492:
+            self.rect.y += self.speed
+
+    def update_right(self):
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys_pressed[K_s] and self.rect.y < 492:
+            self.rect.y += self.speed
+
         
 
 
-#player = Player('player2.jpg', 0, 460, 7, 40, 40)
+player_left = Player('Fox2.png', 0, 271, 10, 90, 110)
+player_right = Player('Fox1.png', 934, 271, 10, 90 , 110)
 
 
 
@@ -72,9 +82,10 @@ while game:
 
     if finish != True:
         window.blit(background, (0, 0))
-        # player.reset()
-        # player.update()
-        
+        player_left.reset()
+        player_left.update_left()
+        player_right.reset()
+        player_right.update_right()
 
     
     
