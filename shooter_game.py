@@ -53,24 +53,25 @@ class Player(GameSprite):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_UP] and self.rect.y > 0:
             self.rect.y -= self.speed
-        if keys_pressed[K_DOWN] and self.rect.y < 492:
+        if keys_pressed[K_DOWN] and self.rect.y < 472:
             self.rect.y += self.speed
 
     def update_right(self):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_w] and self.rect.y > 0:
             self.rect.y -= self.speed
-        if keys_pressed[K_s] and self.rect.y < 492:
+        if keys_pressed[K_s] and self.rect.y < 472:
             self.rect.y += self.speed
 
         
 
 
-player_left = Player('Fox2.png', 0, 271, 10, 90, 110)
-player_right = Player('Fox1.png', 934, 271, 10, 90 , 110)
+player_left = Player('Fox2.png', 0, 271, 10, 110, 130)
+player_right = Player('Fox1.png', 915, 271, 10, 110 , 130)
 
-
-
+sweet_ball = GameSprite('Sweet_ball-1.png.png', 512, 301, 5, 80, 80)
+speed_x = 7
+speed_y = 7
 
 
 game = True
@@ -86,6 +87,17 @@ while game:
         player_left.update_left()
         player_right.reset()
         player_right.update_right()
+        sweet_ball.reset()
+        sweet_ball.rect.x += speed_x
+        sweet_ball.rect.y += speed_y
+        if sweet_ball.rect.y >= 522:
+            speed_y = -7
+        if sweet_ball.rect.y <= 0:
+            speed_y = 7
+        if sweet_ball.rect.colliderect(player_right.rect) or sweet_ball.rect.colliderect(player_left.rect):
+            speed_x *= -1
+
+        
 
     
     
