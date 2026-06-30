@@ -73,7 +73,12 @@ sweet_ball = GameSprite('Sweet_ball-1.png.png', 512, 301, 5, 80, 80)
 speed_x = 7
 speed_y = 7
 
+left_lose = 0
+right_lose = 0
 
+jerry = GameSprite('Jerry.png', 0, 5, 0, 100, 40)
+rick = GameSprite('Rick.png', 924, 5, 0, 90, 40)
+hit_num = 0
 game = True
 finish = False
 while game:
@@ -88,6 +93,8 @@ while game:
         player_right.reset()
         player_right.update_right()
         sweet_ball.reset()
+        jerry.reset()
+        rick.reset()
         sweet_ball.rect.x += speed_x
         sweet_ball.rect.y += speed_y
         if sweet_ball.rect.y >= 522:
@@ -96,6 +103,44 @@ while game:
             speed_y = 7
         if sweet_ball.rect.colliderect(player_right.rect) or sweet_ball.rect.colliderect(player_left.rect):
             speed_x *= -1
+            hit.play()
+            hit_num += 1
+
+        if sweet_ball.rect.x <= -80 and sweet_ball.rect.x > -90:
+            left_lose += 1
+            wall_hit.play()
+            sweet_ball.rect.x = 512
+            sweet_ball.rect.y = 301
+            speed_x *= -1
+
+        if sweet_ball.rect.x >= 1104 and sweet_ball.rect.x < 1111:
+            right_lose += 1
+            wall_hit.play()
+            sweet_ball.rect.x = 512
+            sweet_ball.rect.y = 301
+            speed_x *= -1
+        
+        if right_lose == 3:
+            window.blit(win_left, (100, 50))
+            speed_x = 0
+            speed_y = 0
+            lose.play()
+
+
+        if left_lose == 3:
+            window.blit(win_right, (650, 50))
+            speed_x = 0
+            speed_y = 0
+            lose.play()
+
+        if hit_num == 10:
+            speed_x += 1
+            speed_y += 1
+            hit_num = 0
+
+
+            
+
 
         
 
